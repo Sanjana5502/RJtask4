@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/RJtask4/static/css/main.b129918f.css",
+    "main.js": "/RJtask4/static/js/main.b3e5fd99.js",
+    "index.html": "/RJtask4/index.html",
+    "main.b129918f.css.map": "/RJtask4/static/css/main.b129918f.css.map",
+    "main.b3e5fd99.js.map": "/RJtask4/static/js/main.b3e5fd99.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b129918f.css",
+    "static/js/main.b3e5fd99.js"
+  ]
+}
