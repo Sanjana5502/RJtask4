@@ -1,5 +1,4 @@
-html,
-body {
+html, body {
   height: 100%;
 }
 body {
@@ -11,56 +10,33 @@ body {
   position: absolute;
   top: 50%;
   left: 50%;
-  max-height: 600px;
+  max-height: 550px;
   overflow-y: scroll;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
 table {
-  width: 800px;
-  height: 800px;
-  /*border-collapse: collapse;
-  overflow: hidden; */
+  width: 300px;
+  height: 300px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-}
-th,
-td {
-  padding: 5px;
-  background-color: rgba(255, 255, 255, 0.2);
-  color: black;
+  border: 0.12px solid;
+  font-size: 12px;
 }
 th {
+  background-color: whitesmoke;
+}
+tr:hover {
+  background-color: rgb(231, 225, 201);
+}
+table, td, th {
+  border-collapse: collapse;
+}
+th, td {
+  padding: 1px;
+  border: 1px solid #777;
   text-align: left;
 }
- th {
-  background-color: #55608f;
-}
- tr:hover {
-  background-color: silver;
-}
- td {
-  position: relative;
-}
-table, th, td {
-  border: 2px solid;
-} 
-input {
-  padding-top: 5px;
-  padding-right: 30px;
-  padding-bottom: 5px;
-  padding-left: 8px;
-}
-th {
-  position: relative;
-  cursor: pointer;
-}
-th.sort-asc::after {
-  content: " 🔼";
+.selected-row {
+  background-color: #cce6ff; /* You can customize the background color */
 }
 
-th.sort-desc::after {
-  content: " 🔽";
-}
-.sort-icon {
-  visibility: visible;
- }
