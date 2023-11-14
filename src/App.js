@@ -1,13 +1,7 @@
 import React, { useState } from "react";
-import {
-  useTable,
-  useSortBy,
-  useFilters,
-  useGlobalFilter,
-  useAsyncDebounce,
-} from "react-table";
 import "./App.css";
 import fakeData from "./MOCK_DATA.json";
+import { useTable, useSortBy, useFilters, useGlobalFilter } from "react-table";
 
 function App() {
   const [selectedRows, setSelectedRows] = useState(new Set());
@@ -57,25 +51,26 @@ function App() {
     []
   );
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, state, setGlobalFilter} = useTable({ columns, data, defaultColumn }, useFilters,  useGlobalFilter, useSortBy );
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, state, setGlobalFilter } = useTable(
+    { columns, data, defaultColumn },
+    useFilters,
+    useGlobalFilter,
+    useSortBy
+  );
 
   const { globalFilter } = state;
 
   function DefaultColumnFilter({ column }) {
-    const { filterValue, setFilter } = column;
-    const [filterInput, setFilterInput] = React.useState(filterValue);
+    const { canFilter, filterValue, setFilter } = column;
 
-    const onChange = useAsyncDebounce((value) => {
-      setFilter(value || undefined);
-    }, 200);
+    if (!canFilter) {
+      return null; // Do not render filter input for individual columns
+    }
 
     return (
       <input
-        value={filterInput || ""}
-        onChange={(e) => {
-          setFilterInput(e.target.value);
-          onChange(e.target.value);
-        }}
+        value={filterValue || ""}
+        onChange={(e) => setFilter(e.target.value || undefined)}
         placeholder={`Filter ${column.Header.toLowerCase()}`}
       />
     );
@@ -92,46 +87,43 @@ function App() {
           />
         </div>
         <table {...getTableProps()}>
-  <thead>
-    {headerGroups.map((headerGroup) => (
-      <tr {...headerGroup.getHeaderGroupProps()}>
-        {headerGroup.headers.map((column) => (
-          <th
-            {...column.getHeaderProps(column.getSortByToggleProps())}
-            className={`${
-              column.isSorted ? (column.isSortedDesc ? "sorted-desc" : "sorted-asc") : ""
-            }`}
-          >
-            {column.render("Header")}
-            <span> {column.isSorted ? (column.isSortedDesc ? " 🔽" : " 🔼") : ""} </span>
-            <div>{column.canFilter ? column.render("Filter") : null}</div>
-          </th>
-        ))
-        }
-      </tr>
-    ))
-    }
-  </thead>
-  <tbody {...getTableBodyProps()}>
-    {rows.map((row) => {
-      prepareRow(row);
-      const isSelected = selectedRows.has(row.id);
-      return (
-        <tr {...row.getRowProps()}
-        className={isSelected ? 'selected-row' : ''}
-        >
-          {row.cells.map((cell) => (
-            <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
-          ))
-          }
-        </tr>
-      );
-    })}
-  </tbody>
-</table>
+          <thead>
+            {headerGroups.map((headerGroup) => (
+              <tr {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map((column) => (
+                  <th
+                    {...column.getHeaderProps(column.getSortByToggleProps())}
+                    className={`${
+                      column.isSorted ? (column.isSortedDesc ? "sorted-desc" : "sorted-asc") : ""
+                    }`}
+                  >
+                    {column.render("Header")}
+                    <span> {column.isSorted ? (column.isSortedDesc ? " 🔽" : " 🔼") : ""} </span>
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </thead>
+          <tbody {...getTableBodyProps()}>
+            {rows.map((row) => {
+              prepareRow(row);
+              const isSelected = selectedRows.has(row.id);
+              return (
+                <tr
+                  {...row.getRowProps()}
+                  className={isSelected ? "selected-row" : ""}
+                >
+                  {row.cells.map((cell) => (
+                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                  ))}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
     </div>
   );
 }
 
-export default App;   
+export default App;
